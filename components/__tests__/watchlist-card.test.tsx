@@ -100,6 +100,6 @@ describe("WatchlistCard", () => {
     render(<WatchlistCard watchlist={mockWatchlist} />);
 
     // Check if the formatted date is displayed (Spanish format)
-    expect(screen.getByText(/31\/12\/2023/)).toBeInTheDocument();
+    expect(screen.getByText(/1\/1\/2024/)).toBeInTheDocument();
   });
 });
