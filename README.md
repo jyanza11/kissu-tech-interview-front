@@ -159,4 +159,4 @@ NEXT_PUBLIC_APP_NAME=Signal Watcher
 
 ## 📄 Licencia
 
-Este proyecto es parte de una prueba técnica y es de uso interno.
+Este proyecto es parte de una prueba técnica y es de uso interno.# CI/CD Pipeline Test
