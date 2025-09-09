@@ -12,6 +12,7 @@ import { severityTranslations } from "@/lib/translations";
 import { getWatchlists, getEvents } from "@/lib/actions";
 import { CreateWatchlistForm } from "@/components/forms/create-watchlist-form";
 import { getSeverityBadgeProps } from "@/lib/badge-utils";
+import { Watchlist, Event } from "@/lib/api";
 import Link from "next/link";
 
 export default async function Home() {
@@ -21,16 +22,16 @@ export default async function Home() {
     getEvents(),
   ]);
 
-  const watchlists = watchlistsResult.success ? watchlistsResult.data : [];
-  const events = eventsResult.success ? eventsResult.data : [];
+  const watchlists: Watchlist[] = watchlistsResult.success && "data" in watchlistsResult ? watchlistsResult.data : [];
+  const events: Event[] = eventsResult.success && "data" in eventsResult ? eventsResult.data : [];
 
   // Calculate metrics
   const totalWatchlists = watchlists?.length || 0;
   const totalEvents = events?.length || 0;
   const criticalEvents =
-    events?.filter((event) => event.severity === "CRITICAL").length || 0;
+    events?.filter((event: Event) => event.severity === "CRITICAL").length || 0;
   const highSeverityEvents =
-    events?.filter((event) => event.severity === "HIGH").length || 0;
+    events?.filter((event: Event) => event.severity === "HIGH").length || 0;
 
   // Get recent events (last 3)
   const recentEvents = events?.slice(0, 3) || [];
@@ -119,7 +120,7 @@ export default async function Home() {
                   </p>
                 </div>
               ) : (
-                recentEvents.map((event) => (
+                recentEvents.map((event: Event) => (
                   <div
                     key={event.id}
                     className="flex items-center justify-between"
@@ -148,7 +149,7 @@ export default async function Home() {
           <CardContent>
             <div className="space-y-4">
               {watchlists && watchlists.length > 0 ? (
-                watchlists.slice(0, 3).map((watchlist) => (
+                watchlists.slice(0, 3).map((watchlist: Watchlist) => (
                   <div
                     key={watchlist.id}
                     className="flex items-center justify-between"

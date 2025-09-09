@@ -81,7 +81,7 @@ describe("WatchlistCard", () => {
   it("displays correct term count", () => {
     const watchlistWithOneTerm = {
       ...mockWatchlist,
-      terms: [mockWatchlist.terms[0]],
+      terms: [mockWatchlist.terms[0]!],
     };
 
     render(<WatchlistCard watchlist={watchlistWithOneTerm} />);

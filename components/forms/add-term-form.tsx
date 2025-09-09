@@ -17,8 +17,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { addTerm } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { Plus, X } from "lucide-react";
-import { termFormSchema, type TermFormData } from "@repo/schemas";
+import { z } from "zod";
 import { toast } from "sonner";
+
+const termFormSchema = z.object({
+  term: z.string().min(1, "El término es requerido"),
+});
+
+type TermFormData = z.infer<typeof termFormSchema>;
 
 interface AddTermFormProps {
   watchlistId: string;

@@ -26,8 +26,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { createWatchlist } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { Plus, Save, X } from "lucide-react";
-import { watchlistFormSchema, type WatchlistFormData } from "@repo/schemas";
+import { z } from "zod";
 import { toast } from "sonner";
+
+const watchlistFormSchema = z.object({
+  name: z.string().min(1, "El nombre es requerido"),
+});
+
+type WatchlistFormData = z.infer<typeof watchlistFormSchema>;
 
 export function CreateWatchlistForm() {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +46,6 @@ export function CreateWatchlistForm() {
     resolver: zodResolver(watchlistFormSchema),
     defaultValues: {
       name: "",
-      description: "",
     },
   });
 
@@ -49,9 +54,8 @@ export function CreateWatchlistForm() {
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
+    const formData = new FormData();
+    formData.append("name", data.name);
 
       const result = await createWatchlist(formData);
 
@@ -119,22 +123,6 @@ export function CreateWatchlistForm() {
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
                     <Input placeholder="Ej: Lista de Seguridad" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripción</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Describe el propósito de esta lista..."
-                      {...field}
-                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

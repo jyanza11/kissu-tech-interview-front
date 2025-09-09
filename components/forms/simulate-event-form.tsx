@@ -32,9 +32,17 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { simulateEvent } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { Plus, Save, X } from "lucide-react";
-import { eventFormSchema, type EventFormData } from "@repo/schemas";
+import { z } from "zod";
 import { severityTranslations } from "@/lib/translations";
 import { toast } from "sonner";
+
+const eventFormSchema = z.object({
+  title: z.string().min(1, "El título es requerido"),
+  description: z.string().min(1, "La descripción es requerida"),
+  severity: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
+});
+
+type EventFormData = z.infer<typeof eventFormSchema>;
 
 export function SimulateEventForm() {
   const [isOpen, setIsOpen] = useState(false);
